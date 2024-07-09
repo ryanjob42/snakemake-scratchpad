@@ -10,6 +10,15 @@ Below is a summary of the examples contained in this repo.
   - Demonstrates how to use external scripts.
   - Shows how Snakemake populates useful information (e.g., inputs and outputs) for your script to use.
 
+## Coming Soon
+Here is a list of examples that I'll be generating sometime in the near future.
+
+- Using profiles
+- Using a configuration file
+- Using a CSV file (or similar) to determine what needs to be done
+- Using the SFTP storage plugin
+- Using the Slurm executor plugin
+
 ## Conda Environment
 A Conda environment is provided from when this repository was set up.
 To create and activate the environment, run these commands (respectively):
