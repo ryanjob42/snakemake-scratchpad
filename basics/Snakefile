@@ -1,0 +1,75 @@
+# Snakefiles are effectively an extension of Python.
+# Thus, you can "include" packages, create variables,
+# define functions, or whatever else you'd normally do.
+import os
+print(f'This workflow is being run from: {os.getcwd()}')
+
+# Snakefiles are written as a series of "rules".
+# Typical rules define what files they need as inputs,
+# the files they produce as outputs, and the script or
+# commands to run to create the outputs.
+
+# When you run Snakemake, it will run the topmost rule
+# by default. Most people will call this rule "all" and
+# specify all of the files that you want to be generated
+# as inputs to the rule.
+rule all:
+    input: 'results/final_output.txt'
+
+# Notice that the "all" rule doesn't actually do anything.
+# When Snakemake runs a rule, it will see what input files are
+# specified, and which ones exist in your file system already.
+# If the file doesn't exist yet, Snakemake will search all of
+# your rules for a rule that creates the file, then run that rule.
+
+# This rule will create that "final_output.txt" file from a few other
+# files: "intermediate1.txt" through "intermediate5.txt".
+# The files aren't actually used, we just say that we need them as a demo.
+rule final_result:
+    input:
+        # You can have multiple inputs by separating them with commas.
+        'results/intermediate1.txt',
+        # You can also "label" some of the inputs for easy use later.
+        myLabel = 'results/intermediate2.txt',
+        # A label can have multiple files. One way to do this is with
+        # a Python list, or by using something like Snakemake's "expand"
+        # function. This uses "expand" to generate intermediates 3 through 5.
+        secondLabel = expand('results/intermediate{number}.txt', number=[3,4,5])
+    output: 'results/final_output.txt'
+
+    # The "shell" section will run commands in your shell (terminal).
+    # Any kind of Python string can be used. I like using the triple-quoted
+    # strings so I can write multiple commands.
+    # Snakemake will use f-string formatting, and gives you access to
+    # "input" and "output" variables (and some others).
+    # Labels are just attributes (fields) of the variable.
+    # If a label (or other variable) is a list of items, it will print
+    # each item separated by spaces.
+    shell: '''
+        echo "First Input:" > {output}
+        echo "{input[0]}" >> {output}
+        echo "" >> {output}
+        echo "MyLabel:" >> {output}
+        echo "{input.myLabel}" >> {output}
+        echo "" >> {output}
+        echo "SecondLabel (which is a list)" >> {output}
+        echo "{input.secondLabel}" >> {output}
+        echo "" >> {output}
+        echo "All inputs (again, a list):" >> {output}
+        echo "{input}" >> {output}
+    '''
+
+# This rule creates a temporary intermediate file.
+rule create_intermediate:
+    # This rule uses a "wildcard" in the output name. When Snakemake
+    # is looking for a rule that creates a desired file, if the rule
+    # matches, the wildcard will be replaced with whatever text is
+    # necessary for the file name to match.
+    # You can also mark files as "temp", so they get deleted once they're
+    # no longer needed.
+    output: temp('results/intermediate{number}.txt')
+
+    # When you use wildcards in the "shell" section, you have to access
+    # it via the "wilcards" variable, just like you'd use a label for
+    # an input/output/etc.
+    shell: 'echo "I am intermediate file {wildcards.number}." > {output}'

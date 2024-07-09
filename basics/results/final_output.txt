@@ -1,0 +1,11 @@
+First Input:
+results/intermediate1.txt
+
+MyLabel:
+results/intermediate2.txt
+
+SecondLabel (which is a list)
+results/intermediate3.txt results/intermediate4.txt results/intermediate5.txt
+
+All inputs (again, a list):
+results/intermediate1.txt results/intermediate2.txt results/intermediate3.txt results/intermediate4.txt results/intermediate5.txt

@@ -1,9 +1,11 @@
 # Snakemake Scratchpad
 A scratchpad for different ways of using [Snakemake](https://snakemake.github.io/), which is a useful tool for data processing workflows (or pipelines) that contain multiple steps.
 
-## Tests in this Repo
-Below is a summary of the tests contained in this repo.
+## Examples in this Repo
+Below is a summary of the examples contained in this repo.
 
+- [Basics](./basics/README.md)
+  - Demonstrates some of the basics of Snakemake.
 - [External Scripts](./external-scripts/README.md)
   - Demonstrates how to use external scripts.
   - Shows how Snakemake populates useful information (e.g., inputs and outputs) for your script to use.
