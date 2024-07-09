@@ -11,10 +11,10 @@ label5
 label4
 
 Snakemake Input Values:
-[4]=ignore/File5.txt
-[3]=ignore/File4.txt
-[2]=ignore/File3.txt
-[1]=ignore/File2.txt
-[0]=ignore/File1.txt
-[label5]=ignore/File5.txt
-[label4]=ignore/File4.txt
+[4]=data/File5.txt
+[3]=data/File4.txt
+[2]=data/File3.txt
+[1]=data/File2.txt
+[0]=data/File1.txt
+[label5]=data/File5.txt
+[label4]=data/File4.txt

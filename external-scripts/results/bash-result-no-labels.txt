@@ -7,6 +7,6 @@ Snakemake Input Keys:
 0
 
 Snakemake Input Values:
-[2]=ignore/File3.txt
-[1]=ignore/File2.txt
-[0]=ignore/File1.txt
+[2]=data/File3.txt
+[1]=data/File2.txt
+[0]=data/File1.txt

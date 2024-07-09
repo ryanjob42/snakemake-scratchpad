@@ -1,60 +1,47 @@
 Snakemake Object:
-- bench_iteration
-- config
 - input
-- log
-- log_fmt_shell
 - output
 - params
-- resources
-- rule
-- scriptdir
-- threads
 - wildcards
+- threads
+- resources
+- log
+- config
+- rule
+- bench_iteration
+- scriptdir
+
+Snakemake Object Type:
+- <class 'snakemake.script.Snakemake'>
 
 Input List:
-- ignore/File1.txt
-- ignore/File2.txt
-- ignore/File3.txt
-- ignore/File4.txt
-- ignore/File5.txt
-- ignore/File6.txt
-- ignore/File7.txt
-- ignore/File8.txt
+- data/File1.txt
+- data/File2.txt
+- data/File3.txt
+- data/File4.txt
+- data/File5.txt
+- data/File6.txt
+- data/File7.txt
+- data/File8.txt
 
 Input Object:
-- append
-- clear
-- copy
-- count
-- extend
-- get
 - index
-- insert
-- items
-- keys
+- sort
 - label1
 - label2
 - label3
-- pop
-- remove
-- reverse
-- size
-- size_mb
-- sort
-- update
 
 Input Label 1:
-- ignore/File3.txt
+- data/File3.txt
 
 Input Label 2:
-- ignore/File4.txt
-- ignore/File5.txt
+- data/File4.txt
+- data/File5.txt
 
 Input Label 3:
-- ignore/File6.txt
-- ignore/File7.txt
-- ignore/File8.txt
+- data/File6.txt
+- data/File7.txt
+- data/File8.txt
 
 Params List:
 - 7
@@ -62,24 +49,11 @@ Params List:
 - [1, 2, 3]
 
 Params Object:
-- append
-- clear
-- copy
-- count
-- extend
-- get
 - index
-- insert
-- items
-- keys
+- sort
 - p1
 - p2
 - p3
-- pop
-- remove
-- reverse
-- sort
-- update
 
 Param P1:
 - 7
@@ -91,4 +65,3 @@ Param P3:
 - 1
 - 2
 - 3
-

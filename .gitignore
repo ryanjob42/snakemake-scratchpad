@@ -1,5 +1,4 @@
-# Custom Additions
-ignore/
+# Snakemake's temporary directory
 .snakemake/
 
 # Byte-compiled / optimized / DLL files

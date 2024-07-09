@@ -1,3 +1,4 @@
+# This rule runs all of the tests.
 rule all:
     input:
         'results/bash-result-no-labels.txt',
@@ -5,45 +6,53 @@ rule all:
         'results/bash-result-all-labels.txt',
         'results/python-result.txt'
 
+# This rule tests Bash scripts without giving any of the inputs labels.
 rule bash_script_no_labels:
     input:
-        expand('ignore/File{number}.txt', number=[1,2,3])
+        expand('data/File{number}.txt', number=[1,2,3])
     output:
         'results/bash-result-no-labels.txt'
     script:
-        'bash-script.sh'
+        'scripts/bash-script.sh'
 
-# When you use Bash with labeled inputs, you get a duplicate of each label.
-# There is one copy that's indexed by number, and one copy that's indexed
-# by the label name.
+# This rule shows how Bash scripts behave when you label the inputs.
+# Notably, there are two copies of each input: one that's indexed by
+# number, and one that's indexed by the label name.
+# Note: parameters, outputs, etc. all work the same.
 # Also note: nested arrays are not supported by Bash.
 rule bash_script_all_labels:
     input:
-        label1 = 'ignore/File1.txt',
-        label2 = 'ignore/File2.txt',
-        label3 = 'ignore/File3.txt'
+        label1 = 'data/File1.txt',
+        label2 = 'data/File2.txt',
+        label3 = 'data/File3.txt'
     output:
         'results/bash-result-all-labels.txt'
     script:
-        'bash-script.sh'
+        'scripts/bash-script.sh'
 
+# This rule further shows the same behavior as before when using labels.
+# It demonstrates that only the labeled inputs are duplicated, while the
+# unlabeled inputs appear only once.
 rule bash_script_some_labels:
     input:
-        expand('ignore/File{number}.txt', number=[1,2,3]),
-        label4 = 'ignore/File4.txt',
-        label5 = 'ignore/File5.txt'
+        expand('data/File{number}.txt', number=[1,2,3]),
+        label4 = 'data/File4.txt',
+        label5 = 'data/File5.txt'
     output:
         'results/bash-result-some-labels.txt'
     script:
-        'bash-script.sh'
+        'scripts/bash-script.sh'
 
+# This rule shows how a Python script handles labeled inputs and parameters.
+# Unlike Bash scripts, you can specify things in a rather complex way,
+# and Python handles it very naturally.
 rule python_script:
     input:
-        'ignore/File1.txt',
-        'ignore/File2.txt',
-        label1 = 'ignore/File3.txt',
-        label2 = ['ignore/File4.txt', 'ignore/File5.txt'],
-        label3 = expand('ignore/File{number}.txt', number=[6,7,8])
+        'data/File1.txt',
+        'data/File2.txt',
+        label1 = 'data/File3.txt',
+        label2 = ['data/File4.txt', 'data/File5.txt'],
+        label3 = expand('data/File{number}.txt', number=[6,7,8])
     output:
         'results/python-result.txt'
     params:
@@ -51,8 +60,10 @@ rule python_script:
         p2 = "second",
         p3 = [1, 2, 3]
     script:
-        'python-script.py'
+        'scripts/python-script.py'
 
+# This rule just generates temporary input files so the above rules
+# can actually be run. The files get deleted at the end of the workflow.
 rule generate_input:
-    output: 'ignore/{file}.txt'
+    output: temp('data/{file}.txt')
     shell:  'echo "{wildcards.file}" > "{output}"'
