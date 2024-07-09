@@ -1,0 +1,94 @@
+Snakemake Object:
+- bench_iteration
+- config
+- input
+- log
+- log_fmt_shell
+- output
+- params
+- resources
+- rule
+- scriptdir
+- threads
+- wildcards
+
+Input List:
+- ignore/File1.txt
+- ignore/File2.txt
+- ignore/File3.txt
+- ignore/File4.txt
+- ignore/File5.txt
+- ignore/File6.txt
+- ignore/File7.txt
+- ignore/File8.txt
+
+Input Object:
+- append
+- clear
+- copy
+- count
+- extend
+- get
+- index
+- insert
+- items
+- keys
+- label1
+- label2
+- label3
+- pop
+- remove
+- reverse
+- size
+- size_mb
+- sort
+- update
+
+Input Label 1:
+- ignore/File3.txt
+
+Input Label 2:
+- ignore/File4.txt
+- ignore/File5.txt
+
+Input Label 3:
+- ignore/File6.txt
+- ignore/File7.txt
+- ignore/File8.txt
+
+Params List:
+- 7
+- second
+- [1, 2, 3]
+
+Params Object:
+- append
+- clear
+- copy
+- count
+- extend
+- get
+- index
+- insert
+- items
+- keys
+- p1
+- p2
+- p3
+- pop
+- remove
+- reverse
+- sort
+- update
+
+Param P1:
+- 7
+
+Param P2:
+- second
+
+Param P3:
+- 1
+- 2
+- 3
+

@@ -1,0 +1,18 @@
+Snakemake Input Length:
+6
+
+Snakemake Input Keys:
+2
+1
+0
+label3
+label2
+label1
+
+Snakemake Input Values:
+[2]=ignore/File3.txt
+[1]=ignore/File2.txt
+[0]=ignore/File1.txt
+[label3]=ignore/File3.txt
+[label2]=ignore/File2.txt
+[label1]=ignore/File1.txt

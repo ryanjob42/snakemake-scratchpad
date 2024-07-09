@@ -1,0 +1,58 @@
+rule all:
+    input:
+        'results/bash-result-no-labels.txt',
+        'results/bash-result-some-labels.txt',
+        'results/bash-result-all-labels.txt',
+        'results/python-result.txt'
+
+rule bash_script_no_labels:
+    input:
+        expand('ignore/File{number}.txt', number=[1,2,3])
+    output:
+        'results/bash-result-no-labels.txt'
+    script:
+        'bash-script.sh'
+
+# When you use Bash with labeled inputs, you get a duplicate of each label.
+# There is one copy that's indexed by number, and one copy that's indexed
+# by the label name.
+# Also note: nested arrays are not supported by Bash.
+rule bash_script_all_labels:
+    input:
+        label1 = 'ignore/File1.txt',
+        label2 = 'ignore/File2.txt',
+        label3 = 'ignore/File3.txt'
+    output:
+        'results/bash-result-all-labels.txt'
+    script:
+        'bash-script.sh'
+
+rule bash_script_some_labels:
+    input:
+        expand('ignore/File{number}.txt', number=[1,2,3]),
+        label4 = 'ignore/File4.txt',
+        label5 = 'ignore/File5.txt'
+    output:
+        'results/bash-result-some-labels.txt'
+    script:
+        'bash-script.sh'
+
+rule python_script:
+    input:
+        'ignore/File1.txt',
+        'ignore/File2.txt',
+        label1 = 'ignore/File3.txt',
+        label2 = ['ignore/File4.txt', 'ignore/File5.txt'],
+        label3 = expand('ignore/File{number}.txt', number=[6,7,8])
+    output:
+        'results/python-result.txt'
+    params:
+        p1 = 7,
+        p2 = "second",
+        p3 = [1, 2, 3]
+    script:
+        'python-script.py'
+
+rule generate_input:
+    output: 'ignore/{file}.txt'
+    shell:  'echo "{wildcards.file}" > "{output}"'
