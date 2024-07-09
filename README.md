@@ -1,6 +1,7 @@
 # Snakemake Scratchpad
 A scratchpad for different ways of using [Snakemake](https://snakemake.github.io/), which is a useful tool for data processing workflows (or pipelines) that contain multiple steps.
 
+## Tests in this Repo
 Below is a summary of the tests contained in this repo.
 
 - [External Scripts](./external-scripts/README.md)
@@ -16,7 +17,14 @@ conda env create -f environment.yml
 conda activate snakemake-scratchpad
 ```
 
-If the environment file doesn't work anymore, you can run the following to manually create the environment (and enter "yes" when prompted):
+If the packages are out of date, run the commands below to update them.
+
+```shell
+conda activate snakemake-scratchpad
+conda env update --prune
+```
+
+If the environment file doesn't work anymore (or is out of date), you can run the following to manually create the environment (and enter "yes" when prompted):
 
 ```shell
 conda create --name snakemake-scratchpad --channel conda-forge --channel bioconda snakemake
