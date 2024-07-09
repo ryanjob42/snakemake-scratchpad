@@ -3,6 +3,17 @@ This directory contains examples that show how to use external Bash and Python s
 Other kinds of scripts, such as R or Julia, are also supported by Snakemake, but are not shown here.
 For the official documentation of external scripts, see: https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#external-scripts
 
+## Usage
+To run these tests yourself, simply activate the Conda environment and run Snakemake from this directory.
+
+```shell
+# Make sure you've installed the environment,
+# and that you're in the "external-scripts" folder.
+conda activate snakemake-scratchpad
+snakemake --cores 1
+```
+
+## Description
 There are four main rules in the Snakemake file, each of which simply writes information to the output file about the data structures populated by Snakemake.
 Three of these main rules are for Bash scripts, and demonstrate some potentially unexpected behavior in how the associative arrays are populated.
 The other main rule is for Python.
