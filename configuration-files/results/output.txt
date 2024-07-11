@@ -1,0 +1,6 @@
+This is input file 1
+First file second line
+Third line of file 1
+A second input file
+Second input second line
+The 3rd input file

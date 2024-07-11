@@ -1,0 +1,26 @@
+# This is a YAML file!
+# It's commonly used for specifying configurations.
+# If you're familiar with JSON or Python dictionaries, this is pretty similar.
+
+# Everything is a key-value pair. Unlike some other formats though,
+# you don't need to put quotes around the values.
+merge-command: cat
+
+# YAML supports lists.
+# Each element goes on its own line, with a "-" at the start.
+input-files:
+- in1.txt
+- in2.txt
+- in3.txt
+
+# You can also nest things together.
+# Here, we have the "output-file" key, and its value is another dictionary.
+# You can also nest lists inside them! I've included one (called "unused"),
+# just so you can see what it looks like, but I won't use it in the workflow.
+output-file:
+  name: output
+  extension: txt
+  unused:
+    - item 1
+    - item 2
+    - item 3

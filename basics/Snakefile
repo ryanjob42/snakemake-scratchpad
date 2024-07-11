@@ -1,5 +1,5 @@
 # Snakefiles are effectively an extension of Python.
-# Thus, you can "include" packages, create variables,
+# Thus, you can import packages, create variables,
 # define functions, or whatever else you'd normally do.
 import os
 print(f'This workflow is being run from: {os.getcwd()}')

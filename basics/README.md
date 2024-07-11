@@ -2,7 +2,7 @@
 This directory shows off some of the basics of using Snakemake.
 
 ## Usage
-To run these tests yourself, simply activate the Conda environment and run Snakemake from this directory.
+To run this example yourself, simply activate the Conda environment and run Snakemake from this directory.
 
 ```shell
 # Make sure you've installed the environment,

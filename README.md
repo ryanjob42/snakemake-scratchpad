@@ -6,6 +6,10 @@ Below is a summary of the examples contained in this repo.
 
 - [Basics](./basics/README.md)
   - Demonstrates some of the basics of Snakemake.
+- [Config Files](./config-files/README.md)
+  - Demonstrates how to use configuration files within a workflow.
+  - Shows how to use a YAML configuration file.
+  - Shows how to read a CSV into a Pandas DataFrame, then pull data from that.
 - [External Scripts](./external-scripts/README.md)
   - Demonstrates how to use external scripts.
   - Shows how Snakemake populates useful information (e.g., inputs and outputs) for your script to use.
@@ -14,10 +18,10 @@ Below is a summary of the examples contained in this repo.
 Here is a list of examples that I'll be generating sometime in the near future.
 
 - Using profiles
-- Using a configuration file
-- Using a CSV file (or similar) to determine what needs to be done
 - Using the SFTP storage plugin
 - Using the Slurm executor plugin
+- Importing rules from another file
+- Generating reports
 
 ## Conda Environment
 A Conda environment is provided from when this repository was set up.
@@ -38,7 +42,7 @@ conda env update --prune
 If the environment file doesn't work anymore (or is out of date), you can run the following to manually create the environment (and enter "yes" when prompted):
 
 ```shell
-conda create --name snakemake-scratchpad --channel conda-forge --channel bioconda snakemake
+conda create --name snakemake-scratchpad --channel conda-forge --channel bioconda snakemake pandas
 ```
 
 If you haven't used Conda before, see the link below for information on how to install it.

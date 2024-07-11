@@ -4,7 +4,7 @@ Other kinds of scripts, such as R or Julia, are also supported by Snakemake, but
 For the official documentation of external scripts, see: https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#external-scripts
 
 ## Usage
-To run these tests yourself, simply activate the Conda environment and run Snakemake from this directory.
+To run this example yourself, simply activate the Conda environment and run Snakemake from this directory.
 
 ```shell
 # Make sure you've installed the environment,

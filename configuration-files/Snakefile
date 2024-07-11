@@ -1,0 +1,60 @@
+# Snakemake works well with Pandas.
+import pandas as pd
+
+# Here, we're specifying that we want to include a "config" file.
+# The contents of this file will be used to create a variable called
+# "config", which works just like a Python dictionary.
+configfile: 'config/config.yaml'
+
+# We can also use Pandas DataFrames for storing information.
+# You could create it any way you want, but we'll just read it from a CSV file.
+input_contents = pd.read_csv('config/config.csv')
+
+# This rule will merge a handful of files together.
+# It uses the YAML configuration file to figure out which files to merge
+# and what the new file is called.
+rule merge_files:
+    # We have the input files specified within our config file.
+    # Here, we're using "expand" to say we want all of them as inputs.
+    input: expand('results/{file}', file=config['input-files'])
+
+    # YAML files support complex data structures, just like Python.
+    # Here, we're grabbing the output file's name and extension from the config.
+    # Notice that we're using a Python f-string and accessing the "config" variable.
+    output: f'results/{config["output-file"]["name"]}.{config["output-file"]["extension"]}'
+
+    # This will merge the contents of all the input files into the output file.
+    # Notice that there are no quotes inside the square brackets here, unlike
+    # everywhere else. This is exclusive to the "shell" section.
+    shell: '{config[merge-command]} {input} > {output}'
+
+# This rule creates the input files that get merged.
+# The CSV file (read into the "input_contents" DataFrame) indicates what
+# to put in each file.
+rule create_input:
+    # We don't need the input files long-term, so we'll makr it as temporary.
+    output: temp('results/in{num}.txt')
+
+    # We'll capture the contents of the file as a named parameter, "contents".
+    # Note: using it as a named parameter is easier than not.
+    # The "lookup" function lets you query a Pandas DataFrame.
+    # The "query" argument works like the DataFrame.query() function.
+    # If your column name has a space (like it does here), you need to surround it
+    # with back ticks "`" (usually between the Esc and Tab keys).
+    # The "within" argument is where you tell Snakemake what DataFrame to look at.
+    # The "cols" argument says which column(s) to return.
+    # If you give it a single column name, it'll return a list of values found.
+    # If you give it a list of column names, it'll return a Pandas Series or DataFrame.
+    # This can also be merged with other functions, like "expand", but we'll skip it here.
+    params: contents=lookup(query='`File Number` == {num}', within=input_contents, cols='File Contents')
+
+    # The first line here just deletes whatever is already in the file (if it exists).
+    # In the loop, we use ":q" with "params". This tells Snakemake to put quotes
+    # around each item. If we didn't do that, Bash would put each word on a separate line,
+    # as Bash uses spaces to separate items of a list.
+    shell: '''
+        echo -n "" > {output}
+        for line in {params.contents:q}; do
+            echo "$line" >> {output}
+        done
+    '''
