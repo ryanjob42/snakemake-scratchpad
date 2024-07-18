@@ -16,7 +16,7 @@ Below is a summary of the examples contained in this repo.
 - [Directory Outputs](./directory-outputs/README.md)
   - Using directories as outputs of rule.
   - Referencing directory outputs as inputs to another rule.
-  - Also shows how `checkpoint` rules work.
+  - Also shows how input functions and `checkpoint` rules work.
 
 ## Coming Soon
 Here is a list of examples that I'll be generating sometime in the near future.
