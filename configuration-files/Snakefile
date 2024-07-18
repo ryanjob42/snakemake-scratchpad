@@ -4,6 +4,7 @@ import pandas as pd
 # Here, we're specifying that we want to include a "config" file.
 # The contents of this file will be used to create a variable called
 # "config", which works just like a Python dictionary.
+# This is my preferred method of using configuration files.
 configfile: 'config/config.yaml'
 
 # We can also use Pandas DataFrames for storing information.

@@ -1,0 +1,96 @@
+# This rule just runs the workflow.
+# These files come from the "enumerate" and "merge" rules.
+rule all:
+    input:
+        'results/enumerate_some_files.txt',
+        'results/merged_some_files.txt'
+
+# This rule creates a directory and sub-directory which have some .txt files in them.
+# The number of files generated is random, so we don't even know how many will be produced
+# to add them explicitly to the "output" section. Instead, we'll use the entire directory
+# as the output. To help with this, we will make this rule a "checkpoint" rule, meaning
+# the inputs/outputs/etc. for all other rules will be re-evaluated after this rule is run,
+# that way other rules can get a list of all the files created. We'll see more of this later.
+checkpoint make_directory:
+    # Snakemake wildcards can feel more picky if you're outputting files and directories to
+    # the same place. To help with this, your output directories should have a unique prefix,
+    # such as the "input_" prefix we're using here.
+    # You can mark a directory as being "temp" to delete the folder (and everything in it)
+    # once Snakemake thinks that the folder is no longer needed. Importantly, this might not
+    # always work as expected if you have multiple rules which use the folder or its contents.
+    # In this example, the "enumerate" rule just needs the folder, and the "merge" rule
+    # technically only needs the files in the folder. If "enumerate" ran first (and "merge"
+    # didn't specify that it needs the folder), Snakemake would delete the folder, even though
+    # we still need the files inside the folder. Likewise, if "merge" runs first, the files
+    # inside the folder will be deleted before "enumerate" runs.
+    # There are a few ways around this, like having all such rules depend on both the folder
+    # and the files, or using "flag files" (linked below) to make sure the rules run in a
+    # specific order that you know works.
+    # Here, we just won't mark the directory as "temp".
+    output: directory('results/input_{name}')
+
+    # This will create 2 or 3 pairs of files. For each pair, one file is put directly in the
+    # output directory, and the other is put in a subdirectory.
+    shell: '''
+        num_files=$((2 + $RANDOM % 2))
+        mkdir -p "{output}/subdirectory"
+        for i in $(seq 1 $num_files); do
+            echo "File $i" > "{output}/$i.txt"
+            echo "Sub-directory file $i" > "{output}/subdirectory/$i.txt"
+        done
+    '''
+
+# This rule is intended to take the entire folder created by "make_directory" as input.
+# Then, it uses the Linux "tree" command to list all of the files in that directory,
+# outputting the contents to a file.
+rule enumerate:
+    input: 'results/input_{name}'
+    output: 'results/enumerate_{name}.txt'
+    shell: 'tree {input} > {output}'
+
+# This is the input function for the "merge" rule below.
+# Snakemake will give the wildcards for the rule that called it ("name" above)
+# so that you can use them however you need to. Here, we're using them to get
+# the name of the directory created by "make_directory", then use some helpful
+# Snakemake functions to return a list of all the ".txt" files in that folder.
+# Note: we need to define input functions before the rule that uses it.
+def get_directory_contents(wildcards):
+    # Snakemake provides a "checkpoints" variable, which has an attribute/field
+    # for each checkpoint rule. Here, we're grabbing the "make_directory" rule.
+    # Since there may be multiple instances of that rule, we need to use the
+    # wildcards (provided to this function) to get the correct instance.
+    # Note: "get(**wildcards)" is a shorthand for "get(sample=wildcards.sample)".
+    # However, let's follow Snakemake's own suggestion and always just use this syntax.
+    make_directory_instance = checkpoints.make_directory.get(**wildcards)
+
+    # Next, we want to get the name of the directory that was created.
+    # This is the first output of the rule.
+    dir_name = make_directory_instance.output[0]
+
+    # We want to get all ".txt" files that are in that directory and all subdirectories.
+    # Snakemake gives us a convenient function to help with this: "glob_wildcards".
+    # You give it a string with some wildcards in it representing file paths, just like
+    # you would when writing inputs/outputs. Then, it returns a "Wildcards" object,
+    # where each wildcard is a field/attribute containing a list of all the matches.
+    # This includes all sub-directories as well, which is convenient!
+    # We only have the one wildcard, "i", so we'll just grab that right away.
+    file_names = glob_wildcards(f'{dir_name}/{{i}}.txt').i
+
+    # The "file_names" list only contains the part of the file path represented by "i".
+    # So, we need to re-construct all the file paths. To do this, we'll use "expand"
+    # just like we would when writing rule inputs/outputs.
+    return expand(f'{dir_name}/{{i}}.txt', i=file_names)
+
+# This rule is intended to merge all of the files created by "make_directory".
+# It uses an "input function", which is just a semi-special Python function.
+# This function will return a list of the files created by "make_directory",
+# and those will be populated as the input to this rule.
+# Since "make_directory" is a checkpoint rule, this will be evaluated after
+# the rule finishes (i.e., all the files have been created), so the inputs will
+# be an accurate list of all the files generated by that rule.
+rule merge:
+    input: get_directory_contents
+    output: 'results/merged_{name}.txt'
+
+    # This just merges the contents of all the inputs into one big file.
+    shell: 'cat {input} > {output}'

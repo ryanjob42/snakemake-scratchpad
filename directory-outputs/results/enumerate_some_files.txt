@@ -1,0 +1,8 @@
+results/input_some_files
+├── 1.txt
+├── 2.txt
+└── subdirectory
+    ├── 1.txt
+    └── 2.txt
+
+1 directory, 4 files

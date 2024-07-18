@@ -5,14 +5,18 @@ A scratchpad for different ways of using [Snakemake](https://snakemake.github.io
 Below is a summary of the examples contained in this repo.
 
 - [Basics](./basics/README.md)
-  - Demonstrates some of the basics of Snakemake.
+  - Some of the basics for using Snakemake.
 - [Config Files](./config-files/README.md)
-  - Demonstrates how to use configuration files within a workflow.
-  - Shows how to use a YAML configuration file.
-  - Shows how to read a CSV into a Pandas DataFrame, then pull data from that.
+  - Configuring how a workflow runs based on an external file.
+  - Both YAML and CSV files are demonstrated.
 - [External Scripts](./external-scripts/README.md)
-  - Demonstrates how to use external scripts.
-  - Shows how Snakemake populates useful information (e.g., inputs and outputs) for your script to use.
+  - Using Python or Bash scripts that are outside the workflow file.
+  - R scripts could be used in the same way, but I don't show that here.
+  - These scripts show how to retrieve useful information (e.g., inputs and outputs) from the script.
+- [Directory Outputs](./directory-outputs/README.md)
+  - Using directories as outputs of rule.
+  - Referencing directory outputs as inputs to another rule.
+  - Also shows how `checkpoint` rules work.
 
 ## Coming Soon
 Here is a list of examples that I'll be generating sometime in the near future.
